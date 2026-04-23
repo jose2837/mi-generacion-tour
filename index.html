@@ -120,10 +120,13 @@
       </div>
 
       <div class="rf-field-group">
-        <input type="tel" name="phone" class="rf-input" placeholder="Número de WhatsApp"
-          autocomplete="tel" required aria-required="true" aria-label="Número de WhatsApp">
+        <input type="tel" name="phone" class="rf-input" placeholder="Número de Teléfono"
+          autocomplete="tel" required aria-required="true" aria-label="Número de Teléfono">
       </div>
-
+      <div class="rf-field-group">
+        <input type="email" name="email" class="rf-input" placeholder="Correo electrónico"
+          autocomplete="email" required aria-required="true" aria-label="Correo electrónico">
+      </div>
       <div class="rf-row">
         <label class="rf-row-label">¿A qué ciudad asistirás?</label>
         <div class="rf-radios" role="group" aria-label="Selecciona ciudad">
@@ -508,6 +511,12 @@
         <input type="tel" id="ft" name="telefono" placeholder="+57 300 000 0000" autocomplete="tel" required aria-required="true" aria-label="Teléfono">
         <label for="ft">Teléfono</label>
         <span class="field-error" role="alert" aria-live="polite"></span>
+      </div>
+      <!-- Email -->
+      <div class="frow">
+        <input type="email" id="fe" name="email" placeholder="tu@email.com" required>
+        <label for="fe">Correo electrónico</label>
+        <span class="field-error"></span>
       </div>
 
       <!-- Ciudad -->

@@ -358,6 +358,8 @@
 
       const nameInput   = regForm.querySelector('[name="name"]');
       const phoneInput  = regForm.querySelector('[name="phone"]');
+      const emailInput = regForm.querySelector('[name="email"]');
+      const emailVal = sanitize(emailInput ? emailInput.value : '');
       const cityChecked = regForm.querySelector('[name="city"]:checked');
       const cityGroup   = regForm.querySelector('.rf-radios');
       const consent     = regForm.querySelector('[name="consent"]');
@@ -376,6 +378,13 @@
       } else if (!esTelefonoValido(phoneVal)) {
         showModalError(phoneInput, 'Número inválido (solo dígitos, +, guiones)'); valid = false;
       }
+      if (!emailVal) {
+          showModalError(emailInput, 'Ingresa tu correo electrónico');
+          valid = false;
+        } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailVal)) {
+          showModalError(emailInput, 'Correo inválido');
+          valid = false;
+        }
 
       if (!cityChecked) {
         const errEl = document.createElement('span');
@@ -402,11 +411,15 @@
 
       const nameInput   = regForm.querySelector('[name="name"]');
       const phoneInput  = regForm.querySelector('[name="phone"]');
+      const emailInput = regForm.querySelector('[name="email"]');
       const cityChecked = regForm.querySelector('[name="city"]:checked');
+
+      const emailVal = sanitize(emailInput ? emailInput.value : '');
 
       const formData = {
         nombre:   sanitize(nameInput  ? nameInput.value  : ''),
         telefono: sanitize(phoneInput ? phoneInput.value : ''),
+        email:    emailVal,
         ciudad:   cityChecked ? sanitize(cityChecked.value) : '',
         compro:   null,
         razones:  null,
@@ -484,13 +497,27 @@
 
     const nombre  = form.querySelector('#fn');
     const tel     = form.querySelector('#ft');
+    const email   = form.querySelector('#fe');
     const ciudad  = form.querySelector('#fc');
     const compro  = form.querySelector('input[name="compro"]:checked');
     const consent = form.querySelector('#consent');
 
     const nombreVal = sanitize(nombre ? nombre.value : '');
     const telVal    = sanitize(tel    ? tel.value    : '');
+    const emailVal  = sanitize(email? email.value : '');
     const ciudadVal = sanitize(ciudad ? ciudad.value : '');
+
+    function esEmailValido(str){
+        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(str);
+    }
+    if (!emailVal){
+      showError(email,'por favor ingresa tu correo');
+      valid=false;
+    }else if (!esEmailValido(emailVal)){
+        showError(email, 'Correo inválido');
+        valid = false;
+      
+    }
 
     if (!nombreVal) {
       showError(nombre, 'Por favor ingresa tu nombre'); valid = false;

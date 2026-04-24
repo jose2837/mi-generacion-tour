@@ -2260,3 +2260,19 @@ footer {
     width: min(85vw, 560px);
   }
 }
+
+/* 🔥 DESACTIVA INTERACCIÓN EN TODAS LAS CAPAS VISUALES */
+#revealCanvas,
+.grain,
+.hero__overlay,
+.hero__grain,
+.hero__vignette,
+.hero__fade-left,
+.hero__fade-right,
+.hero__carousel {
+  pointer-events: none !important;
+}
+
+.hero-modal-overlay[hidden] {
+  display: none !important;
+}

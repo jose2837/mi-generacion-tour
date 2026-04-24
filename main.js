@@ -257,6 +257,7 @@
     const payload = {
       nombre:       data.nombre       || null,
       telefono:     data.telefono     || null,
+      email:        data.email        || null,
       ciudad:       data.ciudad       || null,
       compro:       data.compro       || null,
       razones:      data.razones      || null,
@@ -316,11 +317,11 @@
     if (!overlay || !card) return;
 
     // Auto-abrir tras 5 segundos
-    setTimeout(function() {
-      overlay.classList.add('is-active');
-      card.classList.add('is-visible');
-      if (closeBtn) setTimeout(() => closeBtn.focus(), 100);
-    }, 5000);
+ setTimeout(function() {
+  overlay.classList.add('is-active');
+  card.classList.add('is-visible');
+  if (closeBtn) setTimeout(() => closeBtn.focus(), 100);
+}, 5000);
 
     // Cerrar SOLO con botón X
     if (closeBtn) closeBtn.addEventListener('click', function() {
@@ -454,7 +455,7 @@
   const feedback      = document.getElementById('formFeedback');
   const submitBtn     = document.getElementById('fsbtn');
   const privacyToggle = document.getElementById('privacyToggle');
-  const privacyNotice = document.getElementById('privacyNotice');
+  const privacyNotice = document.getElementById('privacyPolicyText'); // -> Correción del
 
   // Poblar política desde config
   const policyText = document.getElementById('privacyPolicyText');

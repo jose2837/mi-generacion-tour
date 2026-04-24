@@ -95,8 +95,7 @@
      MODAL HERO — Aparece automáticamente a los 5 segundos
      Cierre SOLO con botón X. Ocupa ~70% del viewport.
      ══════════════════════════════════════════════════════════════════ -->
-<div class="hero-modal-overlay" id="heroModalOverlay" aria-modal="true" role="dialog" aria-labelledby="heroModalTitle">
-  <article class="hero-modal-card" id="heroModalCard">
+<div class="hero-modal-overlay" id="heroModalOverlay" hidden aria-modal="true" role="dialog" aria-labelledby="heroModalTitle">
 
     <!-- Botón cerrar (única forma de cerrar el modal) -->
     <button class="hero-modal-close" id="heroModalClose" type="button" aria-label="Cerrar formulario">
@@ -585,7 +584,10 @@
         </label>
         <span class="field-error" role="alert" aria-live="polite"></span>
       </div>
-
+      <div style="position:absolute;left:-9999px;top:-9999px;width:1px;height:1px;opacity:0;pointer-events:none;" aria-hidden="true">
+        <input type="text" name="website" tabindex="-1" autocomplete="off" value="">
+      </div>
+      <!--HONEYPOT anti-bot: Campo trampa oculto con CSS-->
       <button type="submit" class="fsubmit" id="fsbtn" aria-live="polite">
         <span class="btn-text">Registrar interés</span>
         <span class="btn-loader" aria-hidden="true"></span>

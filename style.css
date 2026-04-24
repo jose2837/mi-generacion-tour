@@ -827,8 +827,12 @@ body:hover #cursor-ring {
 
     @media (max-width: 480px) {
       .hero__event-badge {
-        display: none; /* Ocultar badge en pantallas muy pequeñas */
+        right: 10px;
+        top: 80px;
+        transform: none;
+        scale: 0.8;
       }
+    
 
       .hero__title .line {
         font-size: clamp(2.4rem, 18vw, 4.5rem);

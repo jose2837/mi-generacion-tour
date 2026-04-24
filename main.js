@@ -317,21 +317,16 @@
     if (!overlay || !card) return;
 
     // Auto-abrir tras 5 segundos
- setTimeout(function() {
-  overlay.classList.add('is-active');
-  card.classList.add('is-visible');
-  if (closeBtn) setTimeout(() => closeBtn.focus(), 100);
-}, 5000);
+    setTimeout(function() {
+      overlay.classList.add('is-active');
+      card.classList.add('is-visible');
+      if (closeBtn) setTimeout(() => closeBtn.focus(), 100);
+    }, 5000);
 
     // Cerrar SOLO con botón X
     if (closeBtn) closeBtn.addEventListener('click', function() {
       overlay.classList.remove('is-active');
       card.classList.remove('is-visible');
-    });
-
-    // Bloquear cierre al clic en overlay o ESC
-    overlay.addEventListener('click', function(e) {
-      e.stopPropagation(); // no cerrar al clicar fuera
     });
 
     if (!regForm) return;
@@ -455,7 +450,7 @@
   const feedback      = document.getElementById('formFeedback');
   const submitBtn     = document.getElementById('fsbtn');
   const privacyToggle = document.getElementById('privacyToggle');
-  const privacyNotice = document.getElementById('privacyPolicyText'); // -> Correción del
+  const privacyNotice = document.getElementById('privacyPolicyText'); // -> Correción
 
   // Poblar política desde config
   const policyText = document.getElementById('privacyPolicyText');

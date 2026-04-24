@@ -2108,20 +2108,26 @@ footer {
   inset: 0;
   z-index: 10000;
   background: rgba(0, 0, 0, 0.72);
+
   display: flex;
   align-items: center;
   justify-content: center;
   padding: clamp(1rem, 5vw, 3rem);
+
   opacity: 0;
+  visibility: hidden;
   pointer-events: none;
-  transition: opacity 0.4s ease;
+
+  transition: opacity 0.4s ease, visibility 0.4s ease;
+
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
 }
 
 .hero-modal-overlay.is-active {
   opacity: 1;
-  pointer-events: all;
+  visibility: visible;
+  pointer-events: auto;
 }
 
 /* Tarjeta del modal: 70% del viewport */
@@ -2261,18 +2267,3 @@ footer {
   }
 }
 
-/* 🔥 DESACTIVA INTERACCIÓN EN TODAS LAS CAPAS VISUALES */
-#revealCanvas,
-.grain,
-.hero__overlay,
-.hero__grain,
-.hero__vignette,
-.hero__fade-left,
-.hero__fade-right,
-.hero__carousel {
-  pointer-events: none !important;
-}
-
-.hero-modal-overlay[hidden] {
-  display: none !important;
-}

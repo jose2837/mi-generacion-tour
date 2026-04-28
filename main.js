@@ -217,10 +217,6 @@
   // ══════════════════════════════════════════════════════════════════
   // UTILIDADES: VALIDACIÓN Y SANITIZACIÓN
   // ══════════════════════════════════════════════════════════════════
-  const CIUDADES_VALIDAS = [
-    'medellín','medellin','bogotá','bogota','cali','neiva',
-    'pasto','barranquilla','villavicencio','ecuador','perú','peru','méxico','mexico'
-  ];
 
   function sanitize(str) {
     if (typeof str !== 'string') return '';
@@ -240,10 +236,6 @@
     return /^[+\d\s()\-]{7,20}$/.test(str);
   }
 
-  function esCiudadValida(str) {
-    const norm = str.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
-    return CIUDADES_VALIDAS.some(c => c.normalize('NFD').replace(/[\u0300-\u036f]/g, '') === norm);
-  }
 
   // ══════════════════════════════════════════════════════════════════
   // SHARED — sendToSupabase / sendToLaylo
@@ -302,7 +294,89 @@
       return { ok: false, error: err.message };
     }
   }
+  function normalizarUbicacion(raw) {
+  if (!raw) return '';
 
+  // normalizar (minúsculas + sin tildes)
+  const normalize = (str) =>
+    str
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .trim();
+
+  const val = normalize(raw);
+
+  // atajos comunes (expandido)
+  const map = {
+    // ciudades principales
+    "medellin": "Medellín, Antioquia, Colombia",
+    "mde": "Medellín, Antioquia, Colombia",
+    "med": "Medellín, Antioquia, Colombia",
+
+    "bogota": "Bogotá, D.C., Colombia",
+    "bta": "Bogotá, D.C., Colombia",
+    "bog": "Bogotá, D.C., Colombia",
+
+    "cali": "Cali, Valle del Cauca, Colombia",
+    "cll": "Cali, Valle del Cauca, Colombia",
+
+    "barranquilla": "Barranquilla, Atlántico, Colombia",
+    "baq": "Barranquilla, Atlántico, Colombia",
+
+    "cartagena": "Cartagena, Bolívar, Colombia",
+    "ctg": "Cartagena, Bolívar, Colombia",
+
+    "bucaramanga": "Bucaramanga, Santander, Colombia",
+    "bga": "Bucaramanga, Santander, Colombia",
+
+    // otras capitales
+    "pereira": "Pereira, Risaralda, Colombia",
+    "manizales": "Manizales, Caldas, Colombia",
+    "ibague": "Ibagué, Tolima, Colombia",
+    "cucuta": "Cúcuta, Norte de Santander, Colombia",
+    "villavicencio": "Villavicencio, Meta, Colombia",
+    "santa marta": "Santa Marta, Magdalena, Colombia",
+    "pasto": "Pasto, Nariño, Colombia",
+    "neiva": "Neiva, Huila, Colombia",
+
+    // departamentos
+    "antioquia": "Antioquia, Colombia",
+    "cundinamarca": "Cundinamarca, Colombia",
+    "valle del cauca": "Valle del Cauca, Colombia",
+    "santander": "Santander, Colombia",
+    "atlantico": "Atlántico, Colombia",
+    "bolivar": "Bolívar, Colombia",
+    "narino": "Nariño, Colombia",
+    "norte de santander": "Norte de Santander, Colombia",
+    "meta": "Meta, Colombia",
+    "tolima": "Tolima, Colombia",
+
+    // país
+    "colombia": "Colombia",
+    "co": "Colombia",
+
+    // internacionales
+    "mx": "México",
+    "mexico": "México",
+    "usa": "Estados Unidos",
+    "eeuu": "Estados Unidos"
+  };
+
+  if (map[val]) return map[val];
+
+  // fallback inteligente (capitaliza bonito)
+  return raw
+    .split(',')
+    .map(p => p.trim())
+    .map(p =>
+      p
+        .split(' ')
+        .map(w => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase())
+        .join(' ')
+    )
+    .join(', ');
+}
   // ══════════════════════════════════════════════════════════════════
   // FORMULARIO HERO — Modal automático a los 5 segundos
   // Aparece al 70% del viewport, cierre SOLO con botón X
@@ -356,8 +430,8 @@
       const phoneInput  = regForm.querySelector('[name="phone"]');
       const emailInput = regForm.querySelector('[name="email"]');
       const emailVal = sanitize(emailInput ? emailInput.value : '');
-      const cityChecked = regForm.querySelector('[name="city"]:checked');
-      const cityGroup   = regForm.querySelector('.rf-radios');
+      const locationInput = regForm.querySelector('[name="location"]');
+      const locationVal = normalizarUbicacion(locationInput ? locationInput.value : '');
       const consent     = regForm.querySelector('[name="consent"]');
 
       const nameVal  = sanitize(nameInput  ? nameInput.value  : '');
@@ -381,14 +455,10 @@
           showModalError(emailInput, 'Correo inválido');
           valid = false;
         }
-
-      if (!cityChecked) {
-        const errEl = document.createElement('span');
-        errEl.className = 'rf-error'; errEl.setAttribute('role', 'alert');
-        errEl.textContent = 'Selecciona tu ciudad';
-        if (cityGroup && cityGroup.parentElement) cityGroup.parentElement.appendChild(errEl);
-        valid = false;
-      }
+        if (!locationVal) {
+          showModalError(locationInput, 'Ingresa tu ubicación');
+          valid = false;
+        }
 
       if (consent && !consent.checked) {
         showModalError(consent, 'Debes aceptar los términos'); valid = false;
@@ -408,7 +478,8 @@
       const nameInput   = regForm.querySelector('[name="name"]');
       const phoneInput  = regForm.querySelector('[name="phone"]');
       const emailInput = regForm.querySelector('[name="email"]');
-      const cityChecked = regForm.querySelector('[name="city"]:checked');
+      const locationInput = regForm.querySelector('[name="location"]');
+      const locationVal = normalizarUbicacion(locationInput ? locationInput.value : '');
 
       const emailVal = sanitize(emailInput ? emailInput.value : '');
 
@@ -416,7 +487,7 @@
         nombre:   sanitize(nameInput  ? nameInput.value  : ''),
         telefono: sanitize(phoneInput ? phoneInput.value : ''),
         email:    emailVal,
-        ciudad:   cityChecked ? sanitize(cityChecked.value) : '',
+        ciudad: locationVal,
         compro:   null,
         razones:  null,
         otro_detalle: null,
@@ -501,7 +572,7 @@
     const nombreVal = sanitize(nombre ? nombre.value : '');
     const telVal    = sanitize(tel    ? tel.value    : '');
     const emailVal  = sanitize(email? email.value : '');
-    const ciudadVal = sanitize(ciudad ? ciudad.value : '');
+    const ciudadVal = normalizarUbicacion(ciudad ? ciudad.value : '');
 
     function esEmailValido(str){
         return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(str);
@@ -526,11 +597,9 @@
     } else if (!esTelefonoValido(telVal)) {
       showError(tel, 'Número inválido (solo dígitos, +, guiones)'); valid = false;
     }
-
-    if (!ciudadVal) {
-      showError(ciudad, 'Por favor ingresa tu ciudad'); valid = false;
-    } else if (!esCiudadValida(ciudadVal)) {
-      showError(ciudad, 'Ciudad no válida. Opciones: Medellín, Bogotá, Cali, Neiva, Pasto, Barranquilla, Villavicencio, Ecuador, Perú, México'); valid = false;
+    if (!ciudadVal || ciudadVal.length < 3) {
+      showError(ciudad, 'Ingresa una ubicación válida');
+      valid = false;
     }
 
     if (!compro) {
@@ -565,7 +634,7 @@
     return {
       nombre:       sanitize(form.querySelector('#fn').value),
       telefono:     sanitize(form.querySelector('#ft').value),
-      ciudad:       sanitize(form.querySelector('#fc').value),
+      ciudad:       normalizarUbicacion(form.querySelector('#fc').value),
       compro:       compro ? compro.value : null,
       razones:      razones.length ? razones : null,
       otro_detalle: (razones.includes('otro') && otroDetalle) ? sanitize(otroDetalle.value) : null,

@@ -127,51 +127,13 @@
         <input type="email" name="email" class="rf-input" placeholder="Correo electrónico"
           autocomplete="email" required aria-required="true" aria-label="Correo electrónico">
       </div>
-      <div class="rf-row">
+      <div class="rf-field-group">
         <label class="rf-row-label">¿De dónde eres?</label>
-        <div class="rf-radios" role="group" aria-label="Selecciona ciudad">
-          <label>
-            <input type="radio" name="city" value="Medellín" checked>
-            <span class="rf-radio-box">Medellín</span>
-          </label>
-          <label>
-            <input type="radio" name="city" value="Bogotá">
-            <span class="rf-radio-box">Bogotá</span>
-          </label>
-          <label>
-            <input type="radio" name="city" value="Cali">
-            <span class="rf-radio-box">Cali</span>
-          </label>
-          <label>
-            <input type="radio" name="city" value="Neiva">
-            <span class="rf-radio-box">Neiva</span>
-          </label>
-          <label>
-            <input type="radio" name="city" value="Pasto">
-            <span class="rf-radio-box">Pasto</span>
-          </label>
-          <label>
-            <input type="radio" name="city" value="Barranquilla">
-            <span class="rf-radio-box">Barranquilla</span>
-          </label>
-          <label>
-            <input type="radio" name="city" value="Villavicencio">
-            <span class="rf-radio-box">Villavicencio</span>
-          </label>
-          <label>
-            <input type="radio" name="city" value="Ecuador">
-            <span class="rf-radio-box">Ecuador</span>
-          </label>
-          <label>
-            <input type="radio" name="city" value="Perú">
-            <span class="rf-radio-box">Perú</span>
-          </label>
-          <label>
-            <input type="radio" name="city" value="México">
-            <span class="rf-radio-box">México</span>
-          </label>
-        </div>
+        <input type="text" name="location" class="rf-input"
+          placeholder="Ciudad, Departamento, País (Ej: Medellin, Antioquia, Colombia)"
+          required>
       </div>
+
 
       <div class="rf-consent">
         <input type="checkbox" id="heroConsent" name="consent" required aria-required="true">

@@ -2267,3 +2267,201 @@ footer {
   }
 }
 
+.hidden {
+  display: none !important;
+}
+
+.superfan-success {
+  text-align: center;
+  padding: 20px 0;
+}
+
+.superfan-code-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  margin: 20px 0;
+  flex-wrap: wrap;
+}
+
+.superfan-code-box span {
+  background: rgba(255,255,255,0.1);
+  border: 1px dashed #fff;
+  padding: 12px 18px;
+  border-radius: 12px;
+  font-size: 1.2rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+}
+
+.superfan-code-box button {
+  cursor: pointer;
+  border: none;
+  padding: 12px 18px;
+  border-radius: 12px;
+  font-weight: 600;
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   UPGRADE PREMIUM — BOTÓN COMPRAR ENTRADAS
+   Mantiene tu paleta dorado / vino / negro, pero lo vuelve MÁS ÉPICO
+   Añade glow, profundidad, urgencia visual y sensación de exclusividad
+   ══════════════════════════════════════════════════════════════════ */
+
+.superfan-buy-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
+
+  padding: 1.15rem 2.8rem;
+  margin-top: 1.5rem;
+
+  font-family: var(--font-title);
+  font-size: clamp(0.95rem, 1.2vw, 1.15rem);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  text-decoration: none;
+
+  color: var(--ink);
+  background:
+    linear-gradient(
+      135deg,
+      var(--gold-3) 0%,
+      var(--gold-1) 32%,
+      var(--gold-2) 68%,
+      var(--gold-1) 100%
+    );
+
+  border: 1px solid rgba(255, 194, 111, 0.45);
+  border-radius: 16px;
+
+  box-shadow:
+    0 10px 30px rgba(255, 194, 111, 0.18),
+    0 4px 14px rgba(94, 0, 6, 0.28),
+    inset 0 1px 0 rgba(255,255,255,0.35);
+
+  overflow: hidden;
+  isolation: isolate;
+
+  transition:
+    transform var(--transition-mid),
+    box-shadow var(--transition-mid),
+    filter var(--transition-mid);
+}
+
+/* Shine animado premium */
+.superfan-buy-btn::before {
+  content: '';
+  position: absolute;
+  top: -120%;
+  left: -40%;
+  width: 55%;
+  height: 320%;
+
+  background: linear-gradient(
+    to right,
+    transparent 0%,
+    rgba(255,255,255,0.08) 30%,
+    rgba(255,255,255,0.45) 50%,
+    rgba(255,255,255,0.08) 70%,
+    transparent 100%
+  );
+
+  transform: rotate(24deg);
+  transition: transform 0.9s ease;
+  z-index: 1;
+}
+
+/* Halo dorado */
+.superfan-buy-btn::after {
+  content: '';
+  position: absolute;
+  inset: 2px;
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,0.18);
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* Texto encima */
+.superfan-buy-btn span {
+  position: relative;
+  z-index: 3;
+}
+
+/* Hover */
+.superfan-buy-btn:hover,
+.superfan-buy-btn:focus {
+  transform: translateY(-4px) scale(1.02);
+
+  box-shadow:
+    0 18px 45px rgba(255, 194, 111, 0.28),
+    0 8px 22px rgba(94, 0, 6, 0.38),
+    0 0 24px rgba(255, 194, 111, 0.22);
+
+  filter: brightness(1.04);
+  outline: none;
+}
+
+/* Desliza el brillo */
+.superfan-buy-btn:hover::before,
+.superfan-buy-btn:focus::before {
+  transform: translateX(280%) rotate(24deg);
+}
+
+/* Click */
+.superfan-buy-btn:active {
+  transform: translateY(-1px) scale(0.99);
+}
+
+/* Badge de urgencia opcional */
+.superfan-buy-btn .buy-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0.28rem 0.55rem;
+  border-radius: 999px;
+
+  background: var(--wine-2);
+  color: var(--cream);
+
+  font-size: 0.52rem;
+  letter-spacing: 0.18em;
+  line-height: 1;
+  font-family: var(--font-body);
+
+  box-shadow: 0 0 12px rgba(155, 15, 6, 0.45);
+}
+
+/* Pulsación sutil para CTA */
+@keyframes premiumPulse {
+  0%, 100% {
+    box-shadow:
+      0 10px 30px rgba(255, 194, 111, 0.18),
+      0 4px 14px rgba(94, 0, 6, 0.28);
+  }
+  50% {
+    box-shadow:
+      0 16px 40px rgba(255, 194, 111, 0.28),
+      0 8px 24px rgba(94, 0, 6, 0.38);
+  }
+}
+
+.superfan-buy-btn.is-live {
+  animation: premiumPulse 2.6s ease-in-out infinite;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .superfan-buy-btn {
+    width: 100%;
+    padding: 1rem 1.4rem;
+    font-size: 0.9rem;
+    letter-spacing: 0.14em;
+    border-radius: 14px;
+  }
+}

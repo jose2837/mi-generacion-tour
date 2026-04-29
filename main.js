@@ -466,7 +466,7 @@
 
       return valid;
     }
-
+    
     regForm.addEventListener('submit', async function(e) {
       e.preventDefault();
       if (!validateModalForm()) return;
@@ -502,7 +502,42 @@
             feedbackEl.textContent = '✓ Registro enviado correctamente.';
             feedbackEl.className = 'rfcard-feedback success';
           }
+
           regForm.reset();
+
+          // Ocultar formulario
+          regForm.classList.add('hidden');
+
+          // Mostrar bloque Super Fan dentro del mismo modal
+          const successBlock = document.getElementById('superFanSuccess');
+          if (successBlock) {
+            successBlock.classList.remove('hidden');
+          }
+
+          // Botón copiar código
+          const copyBtn = document.getElementById('copyCodeBtn');
+          const codeEl  = document.getElementById('superFanCode');
+
+          if (copyBtn && codeEl) {
+            copyBtn.onclick = async function () {
+              try {
+                await navigator.clipboard.writeText(codeEl.textContent.trim());
+
+                const originalText = copyBtn.textContent;
+                copyBtn.textContent = '✓ Código copiado';
+                copyBtn.disabled = true;
+
+                setTimeout(() => {
+                  copyBtn.textContent = originalText;
+                  copyBtn.disabled = false;
+                }, 2000);
+
+              } catch (err) {
+                console.warn('No se pudo copiar el código:', err);
+              }
+            };
+          }
+
         } else {
           if (feedbackEl) {
             feedbackEl.textContent = 'Error al enviar. Intenta de nuevo.';
@@ -643,6 +678,7 @@
 
   if (form) {
     form.addEventListener('submit', async function(e) {
+      console.log("Submit ejecutado");
       e.preventDefault();
       if (!validateInterestForm()) return;
 

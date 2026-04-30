@@ -498,45 +498,23 @@
       if (btn) { btn.classList.remove('loading'); btn.disabled = false; }
 
         if (result.ok || result.error === 'supabase_not_configured') {
+
+          // Feedback inmediato
           if (feedbackEl) {
-            feedbackEl.textContent = '✓ Registro enviado correctamente.';
+            feedbackEl.textContent = '✓ Redirigiendo a compra...';
             feedbackEl.className = 'rfcard-feedback success';
           }
 
+          // Resetear formulario
           regForm.reset();
 
           // Ocultar formulario
           regForm.classList.add('hidden');
 
-          // Mostrar bloque Super Fan dentro del mismo modal
-          const successBlock = document.getElementById('superFanSuccess');
-          if (successBlock) {
-            successBlock.classList.remove('hidden');
-          }
-
-          // Botón copiar código
-          const copyBtn = document.getElementById('copyCodeBtn');
-          const codeEl  = document.getElementById('superFanCode');
-
-          if (copyBtn && codeEl) {
-            copyBtn.onclick = async function () {
-              try {
-                await navigator.clipboard.writeText(codeEl.textContent.trim());
-
-                const originalText = copyBtn.textContent;
-                copyBtn.textContent = '✓ Código copiado';
-                copyBtn.disabled = true;
-
-                setTimeout(() => {
-                  copyBtn.textContent = originalText;
-                  copyBtn.disabled = false;
-                }, 2000);
-
-              } catch (err) {
-                console.warn('No se pudo copiar el código:', err);
-              }
-            };
-          }
+          // 🔥 REDIRECCIÓN AUTOMÁTICA
+          setTimeout(() => {
+            window.location.href = "https://latiquetera.com/event/mi-generacion-tour";
+          }, 1200);
 
         } else {
           if (feedbackEl) {
